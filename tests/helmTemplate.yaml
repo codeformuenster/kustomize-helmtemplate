@@ -1,0 +1,9 @@
+apiVersion: someotherteam.example.com/v1
+kind: HelmTemplate
+metadata:
+  name: nextcloud-from-helm-charts-stable
+repo: https://kubernetes-charts.storage.googleapis.com
+chartName: nextcloud
+chartVersion: 1.9.6
+valuesFile: ./values-test1.yaml
+localCache: true

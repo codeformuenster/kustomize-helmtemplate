@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+exec docker run \
+    -v /tmp:/tmp \
+    -v "$PWD":"$PWD" -w "$PWD" \
+    local/helm-template "$@"
+
+    # FIXME why does this nor work?
+    # --user $(id -u):$(id -g) \
