@@ -3,7 +3,8 @@
 exec docker run \
     -v /tmp:/tmp \
     -v "$PWD":"$PWD" -w "$PWD" \
-    codeformuenster/kustomize-helmtemplate:v0.1.0 "$@"
+    local/helm-template "$@"
+    # codeformuenster/kustomize-helmtemplate:v0.1.0 "$@"
 
     # FIXME why does this not work?
     # --user $(id -u):$(id -g) \

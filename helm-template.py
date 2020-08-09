@@ -46,17 +46,32 @@ if caching_wanted:
 else:
     base_dir = tmpdirpath
 
+if "values" in config:
+    tmp_values = NamedTemporaryFile()
+    yaml.safe_dump(config['values'], tmp_values, encoding='utf-8')
+    # config['valuesFile'] = Path(tmp_values.name)
+
 cmd = f"""
     helm template 
     {config['chartName']}
     {base_dir}
-    --values={config['valuesFile']}
 """
+# FIXME use `valuesFiles` with an array instead
+if "valuesFile" in config:
+    cmd += f" --values={config['valuesFile']}"
+if "values" in config:
+    cmd += f" --values={Path(tmp_values.name)}"
+
+# --values valueFiles            Specify values in a YAML file (can specify multiple) (default [])
+# --validate                     validate your manifests against the Kubernetes cluster you are currently pointing at. This is the same validation performed on an install
 
 rendered_manifests = subprocess.check_output(
     cmd.split(), 
     encoding="utf-8"
 )
+
+if tmp_values:
+    tmp_values.close()
 
 if tmpdir:
     tmpdir.cleanup()
